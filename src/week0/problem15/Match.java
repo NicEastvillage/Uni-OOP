@@ -29,7 +29,16 @@ public class Match {
         if (winner == teamBlue || winner == teamRed) {
             Team loser = winner == teamBlue ? teamRed : teamBlue;
 
-            
+            winner.addWin();
+            loser.addLoss();
         }
+    }
+
+    public Team getTeamRed() {
+        return teamRed;
+    }
+
+    public Team getTeamBlue() {
+        return teamBlue;
     }
 }

@@ -19,4 +19,26 @@ public class Team {
     public Player getBestWinratePlayer() {
         return playerOne.getWinrate() > playerTwo.getWinrate() ? playerOne : playerTwo;
     }
+
+    public void addWin() {
+        playerOne.awardWin();
+        playerTwo.awardWin();
+    }
+
+    public void addLoss() {
+        playerOne.addLoss();
+        playerTwo.addLoss();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Player getPlayerOne() {
+        return playerOne;
+    }
+
+    public Player getPlayerTwo() {
+        return playerTwo;
+    }
 }

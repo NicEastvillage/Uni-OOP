@@ -39,4 +39,32 @@ public class Player {
     public int getAge() {
         return age;
     }
+
+    public void awardWin() {
+        wins++;
+    }
+
+    public void addLoss() {
+        losses++;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public String getSponsor() {
+        return sponsor;
+    }
 }
