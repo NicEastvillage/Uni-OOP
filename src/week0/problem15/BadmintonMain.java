@@ -5,6 +5,13 @@ import java.util.Random;
 public class BadmintonMain {
     public static void main(String[] args) {
 
+        /*
+        =================================
+        ==== Made by Nicolaj Østerby ====
+        ======= 2018, AAU Datalogi ======
+        =================================
+         */
+
         Player john = new Player("John", "Sanderson", 23, 7, 7);
         Player frank = new Player("Frank", "Utsson", 24, 5, 16);
         Player alex = new Player("Alexander", "Jensen", 22, 4, 7);
