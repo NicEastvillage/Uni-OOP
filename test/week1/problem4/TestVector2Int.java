@@ -1,4 +1,7 @@
+package week1.problem4;
+
 import org.junit.jupiter.api.Test;
+import week1.problem4.Vector2Int;
 
 import static org.junit.jupiter.api.Assertions.*;
 
