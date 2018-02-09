@@ -13,10 +13,14 @@ public class Person {
     }
 
     public double getBodyMassIndex() {
-        return 0;
+        return weight / (height * height);
     }
 
     public BMIClassification getClassification() {
-        return BMIClassification.NORMAL;
+        double bmi = getBodyMassIndex();
+        if (bmi < 18.5) return  BMIClassification.UNDER_WEIGHT;
+        if (bmi < 25) return BMIClassification.NORMAL;
+        if (bmi < 30) return BMIClassification.OVER_WEIGHT;
+        return BMIClassification.OBESE;
     }
 }
