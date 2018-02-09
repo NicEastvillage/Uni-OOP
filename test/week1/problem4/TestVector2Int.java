@@ -42,4 +42,24 @@ class TestVector2Int {
         int result = Vector2Int.scalar(new Vector2Int(7, -2), new Vector2Int(10, 13));
         assertEquals(result, 7*10 + -2*13);
     }
+
+    @Test
+    void equals01() {
+        assertTrue(Vector2Int.equals(new Vector2Int(6, 9), new Vector2Int(6, 9)));
+    }
+
+    @Test
+    void equals02() {
+        assertTrue(Vector2Int.equals(new Vector2Int(-60, 2), new Vector2Int(-60, 2)));
+    }
+
+    @Test
+    void equals03() {
+        assertFalse(Vector2Int.equals(new Vector2Int(-3, 3), new Vector2Int(3, -3)));
+    }
+
+    @Test
+    void equals04() {
+        assertFalse(Vector2Int.equals(new Vector2Int(0, 0), new Vector2Int(2, 2)));
+    }
 }
