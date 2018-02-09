@@ -2,7 +2,7 @@ package week1.problem4;
 
 public class Vector2Int {
 
-    int x, y;
+    private int x, y;
 
     public Vector2Int(int x, int y) {
         this.x = x;
