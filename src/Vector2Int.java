@@ -19,9 +19,10 @@ public class Vector2Int {
         return 0;
     }
 
+    /*
     public static int cross(Vector2Int first, Vector2Int second) {
         return 0;
-    }
+    }*/
 
     public static boolean equals(Vector2Int first, Vector2Int second) {
         return first.x == second.x && first.y == second.y;
