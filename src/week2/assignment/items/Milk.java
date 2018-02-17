@@ -1,6 +1,5 @@
 package week2.assignment.items;
 
-import java.time.Instant;
 import java.util.Date;
 
 public class Milk extends Item implements Drinkable {
@@ -12,8 +11,8 @@ public class Milk extends Item implements Drinkable {
     }
 
     @Override
-    public void drink() {
-        if (isExpired(new Date())) {
+    public void drink(Date when) {
+        if (isExpired(when)) {
             System.out.println("You drank the milk. It tasted awful!!");
         } else {
             System.out.println("You drank the milk. Ahh!");

@@ -11,7 +11,7 @@ public class Butter extends Item implements Edible {
     }
 
     @Override
-    public void eat() {
+    public void eat(Date when) {
         System.out.println("You ate the butter. Ehm, okay.");
     }
 }
