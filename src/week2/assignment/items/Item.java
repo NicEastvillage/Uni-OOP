@@ -1,7 +1,6 @@
-package week2.assignment;
+package week2.assignment.items;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public abstract class Item {
 
@@ -15,19 +14,33 @@ public abstract class Item {
         this.expiration = expiration;
     }
 
+    /** @return the name of the item */
     public String getName() {
         return name;
     }
 
+    /** @return the size of the item */
     public int getSize() {
         return size;
     }
 
+    /** @return the date which this item expires */
     public Date getExpiration() {
         return expiration;
     }
 
+    /** @return whether this item is expired or not */
     public boolean isExpired(Date currentDate) {
         return currentDate.after(expiration);
+    }
+
+    /** @return whether this item is edible and can be cast to the Edible interface */
+    public boolean isEdible() {
+        return this instanceof Edible;
+    }
+
+    /** @return whether this item is edible and can be cast to the Edible interface */
+    public boolean isDrinkable() {
+        return this instanceof Drinkable;
     }
 }

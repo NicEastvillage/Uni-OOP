@@ -1,7 +1,8 @@
 package week2.assignment;
 
+import week2.assignment.items.Item;
+
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Fridge {
 
@@ -63,6 +64,7 @@ public class Fridge {
             spaceLeft -= item.getSize();
             return true;
         } else {
+            System.out.println("Fridge is too full. Could not fit " + item.getName() + ".");
             return false;
         }
     }
@@ -84,5 +86,16 @@ public class Fridge {
             }
         }
         return count;
+    }
+
+    /** @return the size of the fridge */
+    public int getSize() {
+        return size;
+    }
+
+    /** @return how much space is left in the fridge. This is equal to
+     * the size of the fridge minus the size of all stored items */
+    public int getSpaceLeft() {
+        return spaceLeft;
     }
 }
