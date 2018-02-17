@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 public class Fridge {
 
-    private boolean open = false;
-    private double temperature;
+    protected boolean open = false;
+    protected double temperature;
 
-    private final int size;
+    protected final int size;
 
-    private ArrayList<Item> items = new ArrayList<>();
-    private int spaceLeft;
+    protected ArrayList<Item> items = new ArrayList<>();
+    protected int spaceLeft;
 
     /** A fridge can store items in a nice cool temperature (5 degrees). Great for containing food. Size must be at least 1. */
     public Fridge(int size) {
