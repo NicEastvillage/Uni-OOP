@@ -18,16 +18,16 @@ public class BankMain {
     public static void tryDeposit(int amount) {
         try {
             account.deposit(amount);
-        } catch (NegativeAmountException e) {
-            System.out.println("Illegal amount! Amount cannot be negative.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public static void tryWithdraw(int amount) {
         try {
             account.withdraw(amount);
-        } catch (NegativeAmountException e) {
-            System.out.println("Illegal amount! Amount cannot be negative.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         } catch (InsufficientFundsException e) {
             System.out.println("Not possible! You are short by " + e.getDeficit());
         }

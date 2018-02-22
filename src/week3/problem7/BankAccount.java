@@ -4,17 +4,17 @@ public class BankAccount {
 
     private int balance = 0;
 
-    public void deposit(int amount) throws NegativeAmountException {
+    public void deposit(int amount) throws IllegalArgumentException {
         if (amount < 0) {
-            throw new NegativeAmountException();
+            throw new IllegalArgumentException("Illegal amount! Amount cannot be negative.");
         }
 
         balance += amount;
     }
 
-    public void withdraw(int amount) throws NegativeAmountException, InsufficientFundsException {
+    public void withdraw(int amount) throws IllegalArgumentException, InsufficientFundsException {
         if (amount < 0) {
-            throw new NegativeAmountException();
+            throw new IllegalArgumentException("Illegal amount! Amount cannot be negative.");
         }
 
         if (amount > balance) {
