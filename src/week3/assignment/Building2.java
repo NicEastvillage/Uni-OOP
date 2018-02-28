@@ -38,7 +38,7 @@ public class Building2 implements DoorPhone {
 
         // Check if this floor exists
         int floor = Character.getNumericValue(floorChar);
-        if (floor > floorCount) {
+        if (floor > floorCount || floor < 1) {
             throw new NoSuchFloorException(floor);
         }
 

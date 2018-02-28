@@ -34,7 +34,7 @@ public class DoorPhoneMain {
                     } catch (IllegalApartmentException e) {
                         System.out.println("No such apartment exist.");
                     } catch (NoSuchFloorException e) {
-                        System.out.println("The building does not have that many floors.");
+                        System.out.println("The building does not have that floor.");
                     }
                 }
 
