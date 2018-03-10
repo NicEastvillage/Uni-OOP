@@ -81,4 +81,25 @@ public class Queue<T> {
 
         arr = newArr;
     }
+
+    /** Removes {@code count} elements from the queue and returns the last removed element. If {@code count} is greater
+     * than the amount of elements in the Queue, all elements will be removed and the last removed element will be returned.
+     * @param count the amount of removed elements, or null if queue is empty.
+     * @return the last removed element */
+    public T drain(int count) {
+
+        T last = null;
+
+        int elementsToRemove = Math.min(elements, count);
+        for (int i = 0; i < elementsToRemove; i++) {
+            last = dequeue();
+        }
+
+        return last;
+    }
+
+    /** @return the number of elements in the Queue. */
+    public int getLength() {
+        return elements;
+    }
 }

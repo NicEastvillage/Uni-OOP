@@ -50,4 +50,47 @@ class QueueTest {
         RuntimeException e = assertThrows(RuntimeException.class, intQueue::dequeue);
         assertNotNull(e);
     }
+
+    @Test
+    public void getLength01() {
+        Queue<Integer> intQueue = new Queue<>();
+        intQueue.enqueue(1);
+        intQueue.enqueue(2);
+        intQueue.enqueue(3);
+        intQueue.enqueue(4);
+        assertEquals(4, intQueue.getLength());
+    }
+
+    @Test
+    public void getLength02() {
+        Queue<Integer> intQueue = new Queue<>();
+        assertEquals(0, intQueue.getLength());
+    }
+
+    @Test
+    public void drain01() {
+        Queue<Integer> intQueue = new Queue<>();
+        intQueue.enqueue(1);
+        intQueue.enqueue(2);
+        intQueue.enqueue(3);
+        intQueue.enqueue(4);
+        assertEquals(Integer.valueOf(2), intQueue.drain(2));
+    }
+
+    @Test
+    public void drain02() {
+        Queue<Integer> intQueue = new Queue<>();
+        assertEquals(null, intQueue.drain(3));
+    }
+
+    @Test
+    public void drain03() {
+        Queue<Integer> intQueue = new Queue<>();
+        intQueue.enqueue(1);
+        intQueue.enqueue(2);
+        intQueue.enqueue(3);
+        intQueue.enqueue(4);
+        intQueue.drain(3);
+        assertEquals(1, intQueue.getLength());
+    }
 }
