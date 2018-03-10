@@ -17,7 +17,7 @@ public class Queue<T> {
     public Queue() {
         arr = (T[]) new Object[DEFAULT_SIZE];
         start = 0;
-        end = 0;
+        end = -1;
         elements = 0;
     }
 
@@ -34,20 +34,15 @@ public class Queue<T> {
         // Insert
         arr[end] = element;
         elements++;
-
-        // Overflow?
-        if (end == start) {
-            expand();
-        }
     }
 
     /** Remove and return the next element in the queue.
      * @return the next element in the queue. */
-    public T dequeue() throws Exception {
+    public T dequeue() throws RuntimeException {
 
         // Empty?
         if (elements == 0) {
-            throw new Exception("Queue is empty.");
+            throw new RuntimeException("Queue is empty.");
         }
 
         // Get element
