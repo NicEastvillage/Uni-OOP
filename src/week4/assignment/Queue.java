@@ -1,5 +1,7 @@
 package week4.assignment;
 
+import java.util.function.Predicate;
+
 /** A Queue is a First-in-first-out collection. */
 public class Queue<T> {
 
@@ -96,6 +98,19 @@ public class Queue<T> {
         }
 
         return last;
+    }
+
+    /** Repeatedly removes elements from the queue as long as the predicate is true. Stops when the predicate returns
+     * false. For example, {@code drainWhile(x -> true)} will completely drain the queue. */
+    public void drainWhile(Predicate<T> pred) {
+        while (elements > 0) {
+            T next = peek();
+            if (pred.test(next)) {
+                dequeue();
+            } else {
+                break;
+            }
+        }
     }
 
     /** @return the number of elements in the Queue. */

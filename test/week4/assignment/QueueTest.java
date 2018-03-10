@@ -93,4 +93,37 @@ class QueueTest {
         intQueue.drain(3);
         assertEquals(1, intQueue.getLength());
     }
+
+    @Test
+    public void drainWhile01() {
+        Queue<Integer> intQueue = new Queue<>();
+        intQueue.enqueue(1);
+        intQueue.enqueue(2);
+        intQueue.enqueue(3);
+        intQueue.enqueue(4);
+        intQueue.drainWhile(x -> x < 3);
+        assertEquals(2, intQueue.getLength());
+    }
+
+    @Test
+    public void drainWhile02() {
+        Queue<Integer> intQueue = new Queue<>();
+        intQueue.enqueue(1);
+        intQueue.enqueue(2);
+        intQueue.enqueue(3);
+        intQueue.enqueue(4);
+        intQueue.drainWhile(x -> true);
+        assertEquals(0, intQueue.getLength());
+    }
+
+    @Test
+    public void drainWhile03() {
+        Queue<Integer> intQueue = new Queue<>();
+        intQueue.enqueue(1);
+        intQueue.enqueue(2);
+        intQueue.enqueue(3);
+        intQueue.enqueue(4);
+        intQueue.drainWhile(x -> false);
+        assertEquals(4, intQueue.getLength());
+    }
 }
