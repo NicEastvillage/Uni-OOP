@@ -68,6 +68,7 @@ class QueueTest {
         intQueue.enqueue(3);
         assertEquals(Integer.valueOf(1), intQueue.peek());
         assertEquals(Integer.valueOf(1), intQueue.peek());
+        assertEquals(Integer.valueOf(1), intQueue.peek());
     }
 
     @Test
@@ -157,5 +158,16 @@ class QueueTest {
         intQueue.enqueue(4);
         intQueue.drainWhile(x -> false);
         assertEquals(4, intQueue.getLength());
+    }
+
+    @Test
+    public void clear01() {
+        Queue<Integer> intQueue = new Queue<>();
+        intQueue.enqueue(1);
+        intQueue.enqueue(2);
+        intQueue.enqueue(3);
+        intQueue.enqueue(4);
+        intQueue.clear();
+        assertEquals(0, intQueue.getLength());
     }
 }

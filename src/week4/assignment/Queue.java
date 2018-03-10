@@ -23,6 +23,14 @@ public class Queue<T> {
         elements = 0;
     }
 
+    /** Removes all elements from the Queue. */
+    public void clear() {
+        arr = (T[]) new Object[DEFAULT_SIZE];
+        start = 0;
+        end = -1;
+        elements = 0;
+    }
+
     /** Enqueue an element. */
     public void enqueue(T element) {
 
