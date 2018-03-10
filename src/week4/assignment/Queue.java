@@ -1,7 +1,6 @@
 package week4.assignment;
 
-import java.rmi.server.ExportException;
-
+/** A Queue is a First-in-first-out collection. */
 public class Queue<T> {
 
     private static final int DEFAULT_SIZE = 16;
@@ -14,6 +13,7 @@ public class Queue<T> {
     /** Number of elements currently in the queue */
     private int elements;
 
+    /** A Queue is a First-in-first-out collection. */
     public Queue() {
         arr = (T[]) new Object[DEFAULT_SIZE];
         start = 0;
@@ -21,6 +21,7 @@ public class Queue<T> {
         elements = 0;
     }
 
+    /** Enqueue an element. */
     public void enqueue(T element) {
 
         // Overflow
@@ -40,6 +41,8 @@ public class Queue<T> {
         }
     }
 
+    /** Remove and return the next element in the queue.
+     * @return the next element in the queue. */
     public T dequeue() throws Exception {
 
         // Empty?
@@ -57,7 +60,30 @@ public class Queue<T> {
         return element;
     }
 
+    /** @return the next element in the queue without removing it from the queue. */
+    public T peek() {
+        if (elements == 0) {
+            return null; // Technically redundant
+        }
+
+        return arr[start];
+    }
+
+    /** Move all elements in the internal array to a new array twice as big */
     private void expand() {
 
+        T[] newArr = (T[]) new Object[elements * 2];
+
+        // Move elements to new array
+        for (int i = 0; i < elements; i++) {
+            int fromIndex = (i + start) % arr.length;
+            newArr[i] = arr[fromIndex];
+        }
+
+        // Update indices
+        start = 0;
+        end = elements;
+
+        arr = newArr;
     }
 }
