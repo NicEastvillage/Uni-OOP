@@ -79,7 +79,7 @@ public class Queue<T> {
 
         // Update indices
         start = 0;
-        end = elements;
+        end = elements - 1;
 
         arr = newArr;
     }

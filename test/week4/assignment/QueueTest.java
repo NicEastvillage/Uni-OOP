@@ -29,6 +29,38 @@ class QueueTest {
     }
 
     @Test
+    public void expand01() {
+        Queue<Integer> intQueue = new Queue<>();
+        for (int i = 0; i < 200; i++) {
+            intQueue.enqueue(i);
+        }
+        for (int i = 0; i < 200; i++) {
+            assertEquals(Integer.valueOf(i), intQueue.dequeue());
+        }
+    }
+
+    @Test
+    public void expand02() {
+        Queue<Integer> intQueue = new Queue<>();
+        // Enqueue 0-49
+        for (int i = 0; i < 50; i++) {
+            intQueue.enqueue(i);
+        }
+        // Dequeue 0-24
+        for (int i = 0; i < 25; i++) {
+            assertEquals(Integer.valueOf(i), intQueue.dequeue());
+        }
+        // Enqueue 50-149
+        for (int i = 50; i < 150; i++) {
+            intQueue.enqueue(i);
+        }
+        // Dequeue 25-49
+        for (int i = 25; i < 50; i++) {
+            assertEquals(Integer.valueOf(i), intQueue.dequeue());
+        }
+    }
+
+    @Test
     public void peek01() {
         Queue<Integer> intQueue = new Queue<>();
         intQueue.enqueue(1);
