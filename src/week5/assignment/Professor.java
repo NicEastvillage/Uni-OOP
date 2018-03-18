@@ -45,4 +45,9 @@ public class Professor implements Person {
     public String getName() {
         return name;
     }
+
+    /** @return {@code "Prof. <name>"}*/
+    public String getNameWithPrefix() {
+        return "Prof. " + name;
+    }
 }

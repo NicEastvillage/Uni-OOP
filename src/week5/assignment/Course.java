@@ -101,4 +101,10 @@ public class Course {
         }
         return false;
     }
+
+    /** @return the {@code <courseName> (<shortName>)}.*/
+    @Override
+    public String toString() {
+        return String.format("%s (%s)", name, shortName);
+    }
 }

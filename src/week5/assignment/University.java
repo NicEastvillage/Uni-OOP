@@ -32,6 +32,10 @@ public class University {
         }
     }
 
+    public HashSet<Course> getCourses() {
+        return new HashSet<>(courses);
+    }
+
     public void registerStudent(Student student) {
         students.add(student);
     }
@@ -66,5 +70,10 @@ public class University {
 
     public HashSet<Professor> getProfessors() {
         return new HashSet<>(professors);
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

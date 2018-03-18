@@ -65,4 +65,10 @@ public class Student implements Person {
     public String getName() {
         return name;
     }
+
+    /** @return the name of this Student. */
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
