@@ -18,7 +18,7 @@ public class Student implements Person {
 
     /** Make this student attend a Course. This will have no effect, if the student has already completed the Course. */
     public void attend(Course co) {
-        if (!completedCourses.contains(co)) {
+        if (!completedCourses.contains(co) && !attendingCourses.contains(co)) {
             attendingCourses.add(co);
             co.addStudent(this);
         }
@@ -26,8 +26,10 @@ public class Student implements Person {
 
     /** Make this Student stop attend a Course. */
     public void stopAttending(Course course) {
-        attendingCourses.remove(course);
-        course.removeStudent(this);
+        if (attendingCourses.contains(course)) {
+            attendingCourses.remove(course);
+            course.removeStudent(this);
+        }
     }
 
     /** Added a Course to this Student's set of completed Courses. */

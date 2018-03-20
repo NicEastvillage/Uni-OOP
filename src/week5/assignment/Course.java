@@ -23,14 +23,18 @@ public class Course {
 
     /** Make a Student attend this Course. */
     public void addStudent(Student student) {
-        attendingStudents.add(student);
-        student.attend(this);
+        if (!attendingStudents.contains(student)) {
+            attendingStudents.add(student);
+            student.attend(this);
+        }
     }
 
     /** Make a Student stop attending this Course. */
-    public void removeStudent(Student st) {
-        attendingStudents.remove(st);
-        st.stopAttending(this);
+    public void removeStudent(Student student) {
+        if (attendingStudents.contains(student)) {
+            attendingStudents.remove(student);
+            student.stopAttending(this);
+        }
     }
 
     /** @return true if {@code student} attends this Course. */
