@@ -1,10 +1,12 @@
 package week5.assignment;
 
+import java.util.Objects;
+
 public class Course {
 
-    private Professor lecturer;
     private final String name;
     private final String shortName;
+    private Professor lecturer;
 
     /** A Course */
     public Course(Professor lecturer, String name, String shortName) {
@@ -32,5 +34,21 @@ public class Course {
     @Override
     public String toString() {
         return String.format("%s (%s)", name, shortName);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(name, course.name) &&
+                Objects.equals(shortName, course.shortName) &&
+                Objects.equals(lecturer, course.lecturer);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, shortName, lecturer);
     }
 }

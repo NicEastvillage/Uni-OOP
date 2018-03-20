@@ -5,15 +5,15 @@ public class Main {
         University university = new University("Winterspring University");
 
         // Professors
-        Professor prfEdinson = new Professor("Kasper Edison");
-        Professor prfHawking = new Professor("Valdemar Hawking");
-        Professor prfKennedy = new Professor("Anders Kennedy");
+        Professor prfEdinson = new Professor("Kasper Edison", university);
+        Professor prfHawking = new Professor("Valdemar Hawking", university);
+        Professor prfKennedy = new Professor("Anders Kennedy", university);
 
         // Courses
-        Course coCALC = new Course(prfEdinson, "Calculus", "CALC");
-        Course coLIAL = new Course(prfEdinson, "Linear Algebra", "LIAL");
-        Course coCART = new Course(prfHawking, "Computer Architecture", "CART");
-        Course coSTAT = new Course(prfKennedy, "Statistics", "STAT");
+        Course coCALC = new Course(prfEdinson, "Calculus", "CALC", university);
+        Course coLIAL = new Course(prfEdinson, "Linear Algebra", "LIAL", university);
+        Course coCART = new Course(prfHawking, "Computer Architecture", "CART", university);
+        Course coSTAT = new Course(prfKennedy, "Statistics", "STAT", university);
 
         // Students
         Student stMort = new Student("Daniel Mort");

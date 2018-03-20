@@ -1,5 +1,7 @@
 package week5.assignment;
 
+import java.util.Objects;
+
 public class Professor implements Person {
 
     private String name;
@@ -18,5 +20,19 @@ public class Professor implements Person {
     /** @return {@code "Prof. <name>"}*/
     public String getNameWithPrefix() {
         return "Prof. " + name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Professor professor = (Professor) o;
+        return Objects.equals(name, professor.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name);
     }
 }
