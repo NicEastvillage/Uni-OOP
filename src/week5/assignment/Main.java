@@ -7,9 +7,9 @@ public class Main {
         University university = new University("Winterspring University");
 
         // Professors
-        Professor prfEdinson = new Professor("Jules Edison");
+        Professor prfEdinson = new Professor("Julie Edison");
         Professor prfHawking = new Professor("Valdemar Hawking");
-        Professor prfKennedy = new Professor("Alexandre Kennedy");
+        Professor prfKennedy = new Professor("Anders Kennedy");
 
         // Courses
         Course coCALC = new Course(prfEdinson, "Calculus", "CALC");
@@ -20,9 +20,9 @@ public class Main {
         // Students
         Student stMort = new Student("Daniel Mort");
         Student stKristensen = new Student("Emil Kristensen");
-        Student stSmidth = new Student("Elia Smidth");
+        Student stSmidth = new Student("Benjamin Smidth");
         Student stZakariasen = new Student("David Zakariaseen");
-        Student stFriis = new Student("Viola Friis");
+        Student stFriis = new Student("Sofie Viola Friis");
         Student stKronborg = new Student("Christine Kronborg");
         Student stRadcliff = new Student("Jacob Radcliff");
 
@@ -55,6 +55,7 @@ public class Main {
         stSmidth.complete(coLIAL);
 
         // Print courses
+        System.out.println("//////// Courses //////////");
         for (Course course : university.getCourses()) {
             System.out.println(course.toString() + " is lectured by " + course.getProfessor() + ".");
             Set<Student> students = course.getAttendingStudents();
@@ -62,7 +63,7 @@ public class Main {
                 System.out.println("The course has no attending students.");
             } else {
                 System.out.println("Attending students are:");
-                students.forEach(System.out::println);
+                students.forEach(st -> System.out.println("* " +  st));
             }
         }
     }

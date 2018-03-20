@@ -50,4 +50,9 @@ public class Professor implements Person {
     public String getNameWithPrefix() {
         return "Prof. " + name;
     }
+
+    @Override
+    public String toString() {
+        return getNameWithPrefix();
+    }
 }
