@@ -1,7 +1,7 @@
 package week5.assignment;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 public class Student implements Person {
 
@@ -60,6 +60,16 @@ public class Student implements Person {
     /** @return a HashSet of completed Courses. */
     public HashSet<Course> getCompletedCourses() {
         return new HashSet<>(completedCourses);
+    }
+
+    /** @return an ArrayList of all homework this Student needs to do. The homework will be the combined list of
+     * homework from all attended Courses. */
+    public ArrayList<Homework> getHomeworkList() {
+        ArrayList<Homework> homework = new ArrayList<>();
+        for (Course attendedCourse : attendingCourses) {
+            homework.addAll(attendedCourse.getHomeworkList());
+        }
+        return homework;
     }
 
     /** @return the name of this Student. */

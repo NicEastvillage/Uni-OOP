@@ -127,7 +127,7 @@ public class Course {
     }
 
     /** @return an ArrayList of all Homework for this Course. */
-    public ArrayList<Homework> getAllHomework() {
+    public ArrayList<Homework> getHomeworkList() {
         return new ArrayList<>(homeworkList);
     }
 
