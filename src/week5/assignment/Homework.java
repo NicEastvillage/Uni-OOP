@@ -1,6 +1,7 @@
 package week5.assignment;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Homework implements Comparable<Homework> {
 
@@ -30,5 +31,20 @@ public class Homework implements Comparable<Homework> {
     @Override
     public int compareTo(Homework that) {
         return (int) (dueDate.getTime() - that.dueDate.getTime());
+    }
+
+    /** Homework is equal when they have the same description and the same due date. */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Homework homework = (Homework) o;
+        return Objects.equals(dueDate, homework.dueDate) &&
+                Objects.equals(description, homework.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dueDate, description);
     }
 }

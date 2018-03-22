@@ -1,5 +1,7 @@
 package week5.assignment;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
@@ -10,6 +12,7 @@ public class Course {
     private final String shortName;
     private HashSet<Student> attendingStudents;
     private Consumer<Course> professorChangeCallback;
+    private ArrayList<Homework> homeworkList;
     private boolean paused;
 
     /** A Course */
@@ -18,6 +21,7 @@ public class Course {
         this.name = name;
         this.shortName = shortName;
         attendingStudents = new HashSet<>();
+        homeworkList = new ArrayList<>();
         paused = professor == null;
     }
 
@@ -104,6 +108,27 @@ public class Course {
             return true;
         }
         return false;
+    }
+
+    /** Add a piece of Homework for this Course. Homework cannot be null. */
+    public void addHomework(Homework homework) throws NullPointerException {
+        if (homework == null) throw new NullPointerException("Homework was null");
+        homeworkList.add(homework);
+    }
+
+    /** Remove a piece of Homework.
+     * @return true, if the homework was removed. */
+    public boolean removeHomework(Homework homework) {
+        if (homeworkList.contains(homework)) {
+            homeworkList.remove(homework);
+            return true;
+        }
+        return false;
+    }
+
+    /** @return an ArrayList of all Homework for this Course. */
+    public ArrayList<Homework> getAllHomework() {
+        return new ArrayList<>(homeworkList);
     }
 
     /** @return the {@code <courseName> (<shortName>)}.*/
