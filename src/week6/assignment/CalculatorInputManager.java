@@ -35,7 +35,7 @@ public class CalculatorInputManager {
                 if (isDigit(c)) return true;
                 if (isComma(c)) return !comma;
             }
-            // Return false if type == OPERATOR or c is anything else
+            // Return false if type == OPERATOR or c is anything else FIXME When adding operator to operator, replace instead
             return false;
         }
 

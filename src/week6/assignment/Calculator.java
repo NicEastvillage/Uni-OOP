@@ -10,6 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.util.Optional;
+
 public class Calculator extends Application {
 
     private static final double RES_HEIGHT = 82;
@@ -23,6 +25,9 @@ public class Calculator extends Application {
     private static final double WINDOW_WIDTH = BUTTON_WIDTH * 4;
     private static final double WINDOW_HEIGHT = BUTTON_HEIGHT * 4 + RES_HEIGHT;
 
+    private Optional<String> lastCalculation;
+    private Label expLabel;
+    private CalculatorInputManager inputManager = new CalculatorInputManager();
 
     public static void main(String[] args) {
         launch(args);
@@ -36,13 +41,14 @@ public class Calculator extends Application {
         root.setAlignment(Pos.CENTER);
 
         // Top label
-        Label statusLabel = new Label("0");
-        statusLabel.setMinSize(WINDOW_WIDTH, RES_HEIGHT);
-        statusLabel.setFont(RES_FONT);
-        statusLabel.setAlignment(Pos.CENTER_RIGHT);
-        statusLabel.setPadding(RES_PADDING);
-        root.getChildren().add(statusLabel);
-        statusLabel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+        expLabel = new Label("0");
+        expLabel.setMinSize(WINDOW_WIDTH, RES_HEIGHT);
+        expLabel.setFont(RES_FONT);
+        expLabel.setAlignment(Pos.CENTER_RIGHT);
+        expLabel.setPadding(RES_PADDING);
+        root.getChildren().add(expLabel);
+        expLabel.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+        lastCalculation = Optional.empty();
 
         // Number grid
         GridPane grid = constructGrid();
@@ -54,6 +60,18 @@ public class Calculator extends Application {
         stage.setTitle("Calculator");
         stage.setResizable(false);
         stage.show();
+    }
+
+    private void updateExpressionLabel() {
+        if (inputManager.getInputString().equals("")) {
+            if (lastCalculation.isPresent()) {
+                expLabel.setText(lastCalculation.get());
+            } else {
+                expLabel.setText("0");
+            }
+        } else {
+            expLabel.setText(inputManager.getInputString());
+        }
     }
 
     private GridPane constructGrid() {
@@ -68,24 +86,48 @@ public class Calculator extends Application {
                 col = (i - 1) % 3;
                 row = 2 - ((i - 1) / 3);
             }
-            Button but = createGridButton(grid, String.valueOf(i).charAt(0), col, row);
+            char ch = String.valueOf(i).charAt(0);
+            Button but = createGridButton(grid, ch, col, row);
+            but.setOnMouseClicked(e -> addChar(ch));
         }
 
         Button commaButton = createGridButton(grid, '.', 0, 3);
-        Button resButton = createGridButton(grid, '=', 2, 3);
+        commaButton.setOnMouseClicked(e -> addChar('.'));
 
         Button plusButton = createGridButton(grid, '+', 3, 0);
         Button minusButton = createGridButton(grid, '-', 3, 1);
         Button timesButton = createGridButton(grid, '*', 3, 2);
         Button divideButton = createGridButton(grid, '/', 3, 3);
+        plusButton.setOnMouseClicked(e -> addChar('+'));
+        minusButton.setOnMouseClicked(e -> addChar('-'));
+        timesButton.setOnMouseClicked(e -> addChar('*'));
+        divideButton.setOnMouseClicked(e -> addChar('/'));
+
+        Button resButton = createGridButton(grid, '=', 2, 3);
+        resButton.setOnMouseClicked(ev -> {
+            try {
+                double res = inputManager.calculate();
+                lastCalculation = Optional.of(inputManager.getInputString() + " = " + res);
+                inputManager.clear();
+                updateExpressionLabel();
+            } catch (Exception ex) {
+                // Do nothing
+            }
+        });
 
         return grid;
+    }
+
+    private void addChar(char ch) {
+        inputManager.addCharacter(ch);
+        updateExpressionLabel();
     }
 
     private Button createGridButton(GridPane grid, char ch, int col, int row) {
         Button but = new Button("" + ch);
         but.setMinSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         but.setFont(BUTTON_FONT);
+        but.setFocusTraversable(false);
 
         grid.add(but, col, row);
         return but;
