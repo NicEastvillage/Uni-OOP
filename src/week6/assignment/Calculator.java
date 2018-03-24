@@ -13,14 +13,14 @@ import javafx.stage.Stage;
 public class Calculator extends Application {
 
     private static final double RES_HEIGHT = 82;
-    private static final Font RES_FONT = new Font(20);
+    private static final Font RES_FONT = new Font(24);
     private static final Insets RES_PADDING = new Insets(10);
 
     private static final double BUTTON_WIDTH = 73;
     private static final double BUTTON_HEIGHT = 54;
     private static final Font BUTTON_FONT = new Font(20);
 
-    private static final double WINDOW_WIDTH = BUTTON_WIDTH * 3 + 2;
+    private static final double WINDOW_WIDTH = BUTTON_WIDTH * 4;
     private static final double WINDOW_HEIGHT = BUTTON_HEIGHT * 4 + RES_HEIGHT;
 
 
@@ -52,6 +52,7 @@ public class Calculator extends Application {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.setTitle("Calculator");
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -59,9 +60,6 @@ public class Calculator extends Application {
         GridPane grid = new GridPane();
 
         for (int i = 0; i < 10; i++) {
-            Button button = new Button("" + i);
-            button.setMinSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-            button.setFont(BUTTON_FONT);
             int col, row;
             if (i == 0) {
                 col = 1;
@@ -70,19 +68,26 @@ public class Calculator extends Application {
                 col = (i - 1) % 3;
                 row = 2 - ((i - 1) / 3);
             }
-            grid.add(button, col, row);
+            Button but = createGridButton(grid, String.valueOf(i).charAt(0), col, row);
         }
 
-        Button commaButton = new Button(".");
-        commaButton.setMinSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        commaButton.setFont(BUTTON_FONT);
-        grid.add(commaButton, 0, 3);
+        Button commaButton = createGridButton(grid, '.', 0, 3);
+        Button resButton = createGridButton(grid, '=', 2, 3);
 
-        Button resButton = new Button("=");
-        resButton.setMinSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        resButton.setFont(BUTTON_FONT);
-        grid.add(resButton, 2, 3);
+        Button plusButton = createGridButton(grid, '+', 3, 0);
+        Button minusButton = createGridButton(grid, '-', 3, 1);
+        Button timesButton = createGridButton(grid, '*', 3, 2);
+        Button divideButton = createGridButton(grid, '/', 3, 3);
 
         return grid;
+    }
+
+    private Button createGridButton(GridPane grid, char ch, int col, int row) {
+        Button but = new Button("" + ch);
+        but.setMinSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        but.setFont(BUTTON_FONT);
+
+        grid.add(but, col, row);
+        return but;
     }
 }
