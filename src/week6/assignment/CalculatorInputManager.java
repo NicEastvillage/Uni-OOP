@@ -30,10 +30,10 @@ public class CalculatorInputManager {
         public boolean containsComma() { return comma; }
 
         public boolean canAddChar(char c) {
-            if (type == InputPartType.EMPTY) return true;
+            if (type == InputPartType.EMPTY && isValidChar(c)) return true;
             if (type == InputPartType.NUMBER) {
-                if (Character.isDigit(c)) return true;
-                if (c == '.') return !comma;
+                if (isDigit(c)) return true;
+                if (isComma(c)) return !comma;
             }
             // Return false if type == OPERATOR or c is anything else
             return false;
@@ -41,13 +41,13 @@ public class CalculatorInputManager {
 
         public void addChar(char c) {
             if (!canAddChar(c)) throw new RuntimeException();
-            if (c == '.') comma = true;
+            if (isComma(c)) comma = true;
             string += c;
             length++;
 
             if (type == InputPartType.EMPTY) {
-                if (Character.isDigit(c) || c == '.') type = InputPartType.NUMBER;
-                else if (c == '+' || c == '-' || c == '*' || c == '/') type = InputPartType.OPERATOR;
+                if (isDigit(c) || isComma(c)) type = InputPartType.NUMBER;
+                else if (isOperator(c)) type = InputPartType.OPERATOR;
             }
         }
 
@@ -71,23 +71,21 @@ public class CalculatorInputManager {
     }
 
     public void addCharacter(char c) {
+        if (!isValidChar(c)) throw new IllegalArgumentException("The character '" + c + "' is not valid in a calculator.");
+
         // Ignore request if double comma
         if (currentPart.containsComma() && c == '.') return;
 
-        try {
-            if (currentPart.canAddChar(c)) {
-                // Add to current part
-                currentPart.addChar(c);
-            } else {
-                // Create new part
-                parts.add(currentPart);
-                currentPart = new InputPart(input.length());
-                currentPart.addChar(c);
-            }
-            input += c;
-        } catch (RuntimeException e) {
-            throw new IllegalArgumentException("The character '" + c + "' is not valid in a calculator.");
+        if (currentPart.canAddChar(c)) {
+            // Add to current part
+            currentPart.addChar(c);
+        } else {
+            // Create new part
+            parts.add(currentPart);
+            currentPart = new InputPart(input.length());
+            currentPart.addChar(c);
         }
+        input += c;
     }
 
     public double calculate() {
@@ -104,7 +102,7 @@ public class CalculatorInputManager {
                 double value = Double.valueOf(calcParts.get(i+1).getString());
                 res = evaluateExpression(res, value, operator);
             }
-            
+
             return res;
         } else {
             throw new InvalidExpressionException("Cannot calculate current expression: \"" + input + "\".");
@@ -117,7 +115,7 @@ public class CalculatorInputManager {
         if (!currentPart.isEmpty()) calcParts.add(currentPart);
 
         // Input must be at least 3,5,7.. parts long and last one cannot be an operator
-        return calcParts.size() % 2 == 1 && calcParts.get(calcParts.size() - 1).getType() == InputPartType.NUMBER;
+        return calcParts.size() >= 3 && calcParts.size() % 2 == 1 && calcParts.get(calcParts.size() - 1).getType() == InputPartType.NUMBER;
     }
 
     private double evaluateExpression(double a, double b, String operator) {
@@ -125,12 +123,28 @@ public class CalculatorInputManager {
             case "+": return a + b;
             case "-": return a - b;
             case "*": return a * b;
-            case "/": return a / b; // FIXME Divide by zero
+            case "/": return b == 0 ? Double.NaN : a / b;
             default: return Double.NaN;
         }
     }
 
     public String getInputString() {
         return input;
+    }
+
+    private boolean isValidChar(char c) {
+        return isDigit(c) || isComma(c) || isOperator(c);
+    }
+
+    private boolean isDigit(char c) {
+        return Character.isDigit(c);
+    }
+
+    private boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '*' || c == '/';
+    }
+
+    private boolean isComma(char c) {
+        return c == '.';
     }
 }
