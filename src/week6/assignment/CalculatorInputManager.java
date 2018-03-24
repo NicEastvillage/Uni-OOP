@@ -91,12 +91,43 @@ public class CalculatorInputManager {
     }
 
     public double calculate() {
-        return 0;
+        if (canCalculate()) {
+            // Collect parts
+            ArrayList<InputPart> calcParts = new ArrayList<>(parts);
+            if (!currentPart.isEmpty()) calcParts.add(currentPart);
+
+            double res = Double.valueOf(calcParts.get(0).getString());
+
+            // Parts will always be NUMBER->OPERATOR->NUMBER->OPERATOR->...
+            for (int i = 1; i < calcParts.size(); i += 2) {
+                String operator = calcParts.get(i).getString();
+                double value = Double.valueOf(calcParts.get(i+1).getString());
+                res = evaluateExpression(res, value, operator);
+            }
+            
+            return res;
+        } else {
+            throw new InvalidExpressionException("Cannot calculate current expression: \"" + input + "\".");
+        }
     }
 
     private boolean canCalculate() {
-        // Input must be at least 3 parts long and last one cannot be an operator
-        return false;
+        // Collect parts
+        ArrayList<InputPart> calcParts = new ArrayList<>(parts);
+        if (!currentPart.isEmpty()) calcParts.add(currentPart);
+
+        // Input must be at least 3,5,7.. parts long and last one cannot be an operator
+        return calcParts.size() % 2 == 1 && calcParts.get(calcParts.size() - 1).getType() == InputPartType.NUMBER;
+    }
+
+    private double evaluateExpression(double a, double b, String operator) {
+        switch (operator) {
+            case "+": return a + b;
+            case "-": return a - b;
+            case "*": return a * b;
+            case "/": return a / b; // FIXME Divide by zero
+            default: return Double.NaN;
+        }
     }
 
     public String getInputString() {
