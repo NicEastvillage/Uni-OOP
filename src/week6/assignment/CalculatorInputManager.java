@@ -59,16 +59,7 @@ public class CalculatorInputManager {
 
         // Set operator
         if (isOperator(c)) {
-            // Use last result if first num is empty. If no last result, then ignore
-            if (firstNum.isEmpty()) {
-                if (lastResult.isPresent()) {
-                    firstNum.set(lastResult.getAsDouble());
-                } else {
-                    return;
-                }
-            }
-
-            operator = c;
+            addOperator(c);
             return;
         }
 
@@ -79,6 +70,25 @@ public class CalculatorInputManager {
             // Add to current part
             getCurrentNumber().addChar(c);
         }
+    }
+
+    private void addOperator(char c) {
+        // Use last result if first num is empty. If no last result, then ignore
+        if (firstNum.isEmpty()) {
+            if (lastResult.isPresent()) {
+                firstNum.set(lastResult.getAsDouble());
+            } else {
+                return;
+            }
+        } else if (!secondNum.isEmpty()) {
+            // There is a second number -> force calculation
+            calculate();
+            clear();
+            addCharacter(c);
+            return;
+        }
+
+        operator = c;
     }
 
     private InputNumber getCurrentNumber() {
