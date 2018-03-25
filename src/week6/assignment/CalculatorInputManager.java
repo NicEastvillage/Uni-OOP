@@ -2,53 +2,37 @@ package week6.assignment;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.OptionalDouble;
 
 public class CalculatorInputManager {
 
-    private enum InputPartType {
-        EMPTY, NUMBER, OPERATOR
-    }
+    private static final char UNSET_OPERATOR = '#';
 
-    private class InputPart {
+    private class InputNumber {
         private String string = "";
-        private InputPartType type = InputPartType.EMPTY;
-        private int startIndex;
-        private int length = 0;
         private boolean comma = false;
-
-        public InputPart(int startIndex) {
-            this.startIndex = startIndex;
-        }
 
         // Cheesy getters
         public String getString() { return string; }
-        public InputPartType getType() { return type; }
-        public boolean isEmpty() { return type == InputPartType.EMPTY; }
-        public int getStartIndex() { return startIndex; }
-        public int getLength() { return length; }
-        public int getEndIndex() { return startIndex + length; }
+        public boolean isEmpty() { return string.length() == 0; }
         public boolean containsComma() { return comma; }
 
         public boolean canAddChar(char c) {
-            if (type == InputPartType.EMPTY && isValidChar(c)) return true;
-            if (type == InputPartType.NUMBER) {
-                if (isDigit(c)) return true;
-                if (isComma(c)) return !comma;
-            }
-            // Return false if type == OPERATOR or c is anything else FIXME When adding operator to operator, replace instead
+            if (isDigit(c)) return true;
+            if (isComma(c)) return !comma;
             return false;
+        }
+
+        public void set(double value) {
+            string = "" + value;
+            comma = string.indexOf('.') >= 0;
         }
 
         public void addChar(char c) {
             if (!canAddChar(c)) throw new RuntimeException();
             if (isComma(c)) comma = true;
             string += c;
-            length++;
-
-            if (type == InputPartType.EMPTY) {
-                if (isDigit(c) || isComma(c)) type = InputPartType.NUMBER;
-                else if (isOperator(c)) type = InputPartType.OPERATOR;
-            }
         }
 
         public void removeChar() {
@@ -56,80 +40,85 @@ public class CalculatorInputManager {
         }
     }
 
-    private String input;
-    private InputPart currentPart;
-    private ArrayList<InputPart> parts;
+    private OptionalDouble lastResult = OptionalDouble.empty();
+    private char operator;
+    private InputNumber firstNum, secondNum;
 
     public CalculatorInputManager() {
         clear();
     }
 
     public void clear() {
-        input = "";
-        currentPart = new InputPart(0);
-        parts = new ArrayList<>();
+        operator = UNSET_OPERATOR;
+        firstNum = new InputNumber();
+        secondNum = new InputNumber();
     }
 
     public void addCharacter(char c) {
         if (!isValidChar(c)) throw new IllegalArgumentException("The character '" + c + "' is not valid in a calculator.");
 
-        // Ignore request if double comma
-        if (currentPart.containsComma() && c == '.') return;
+        // Set operator
+        if (isOperator(c)) {
+            // Use last result if first num is empty. If no last result, then ignore
+            if (firstNum.isEmpty()) {
+                if (lastResult.isPresent()) {
+                    firstNum.set(lastResult.getAsDouble());
+                } else {
+                    return;
+                }
+            }
 
-        if (currentPart.canAddChar(c)) {
-            // Add to current part
-            currentPart.addChar(c);
-        } else {
-            // Create new part
-            parts.add(currentPart);
-            currentPart = new InputPart(input.length());
-            currentPart.addChar(c);
+            operator = c;
+            return;
         }
-        input += c;
+
+        // Ignore if double comma
+        if (getCurrentNumber().containsComma() && c == '.') return;
+
+        if (getCurrentNumber().canAddChar(c)) {
+            // Add to current part
+            getCurrentNumber().addChar(c);
+        }
+    }
+
+    private InputNumber getCurrentNumber() {
+        return operator == UNSET_OPERATOR ? firstNum : secondNum;
     }
 
     public double calculate() {
         if (canCalculate()) {
             // Collect parts
-            ArrayList<InputPart> calcParts = new ArrayList<>(parts);
-            if (!currentPart.isEmpty()) calcParts.add(currentPart);
 
-            double res = Double.valueOf(calcParts.get(0).getString());
+            double first = Double.valueOf(firstNum.string);
+            double second = Double.valueOf(secondNum.string);
 
-            // Parts will always be NUMBER->OPERATOR->NUMBER->OPERATOR->...
-            for (int i = 1; i < calcParts.size(); i += 2) {
-                String operator = calcParts.get(i).getString();
-                double value = Double.valueOf(calcParts.get(i+1).getString());
-                res = evaluateExpression(res, value, operator);
-            }
-
+            double res = evaluateExpression(first, second, operator);
+            lastResult = OptionalDouble.of(res);
             return res;
         } else {
-            throw new InvalidExpressionException("Cannot calculate current expression: \"" + input + "\".");
+            throw new InvalidExpressionException("Cannot calculate current expression: \"" + getInputString() + "\".");
         }
     }
 
     private boolean canCalculate() {
-        // Collect parts
-        ArrayList<InputPart> calcParts = new ArrayList<>(parts);
-        if (!currentPart.isEmpty()) calcParts.add(currentPart);
-
-        // Input must be at least 3,5,7.. parts long and last one cannot be an operator
-        return calcParts.size() >= 3 && calcParts.size() % 2 == 1 && calcParts.get(calcParts.size() - 1).getType() == InputPartType.NUMBER;
+        return !firstNum.isEmpty() && !secondNum.isEmpty() && operator != UNSET_OPERATOR;
     }
 
-    private double evaluateExpression(double a, double b, String operator) {
+    private double evaluateExpression(double a, double b, char operator) {
         switch (operator) {
-            case "+": return a + b;
-            case "-": return a - b;
-            case "*": return a * b;
-            case "/": return b == 0 ? Double.NaN : a / b;
+            case '+': return a + b;
+            case '-': return a - b;
+            case '*': return a * b;
+            case '/': return b == 0 ? Double.NaN : a / b;
             default: return Double.NaN;
         }
     }
 
     public String getInputString() {
-        return input;
+        if (operator == UNSET_OPERATOR) {
+            return firstNum.string;
+        }
+        return firstNum.string + operator + secondNum.string;
     }
 
     private boolean isValidChar(char c) {
