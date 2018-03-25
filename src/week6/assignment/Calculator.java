@@ -23,7 +23,7 @@ public class Calculator extends Application {
     private static final Font BUTTON_FONT = new Font(20);
 
     private static final double WINDOW_WIDTH = BUTTON_WIDTH * 4;
-    private static final double WINDOW_HEIGHT = BUTTON_HEIGHT * 4 + RES_HEIGHT;
+    private static final double WINDOW_HEIGHT = BUTTON_HEIGHT * 5 + RES_HEIGHT;
 
     private Optional<String> lastCalculation;
     private Label expLabel;
@@ -81,29 +81,29 @@ public class Calculator extends Application {
             int col, row;
             if (i == 0) {
                 col = 1;
-                row = 3;
+                row = 4;
             } else {
                 col = (i - 1) % 3;
-                row = 2 - ((i - 1) / 3);
+                row = 3 - ((i - 1) / 3);
             }
-            char ch = String.valueOf(i).charAt(0);
-            Button but = createGridButton(grid, ch, col, row);
+            char ch = (char)('0' + i);
+            Button but = createGridButton(grid, "" + i, col, row);
             but.setOnMouseClicked(e -> addChar(ch));
         }
 
-        Button commaButton = createGridButton(grid, '.', 0, 3);
+        Button commaButton = createGridButton(grid, ".", 0, 4);
         commaButton.setOnMouseClicked(e -> addChar('.'));
 
-        Button plusButton = createGridButton(grid, '+', 3, 0);
-        Button minusButton = createGridButton(grid, '-', 3, 1);
-        Button timesButton = createGridButton(grid, '*', 3, 2);
-        Button divideButton = createGridButton(grid, '/', 3, 3);
+        Button plusButton = createGridButton(grid, "+", 3, 1);
+        Button minusButton = createGridButton(grid, "-", 3, 2);
+        Button timesButton = createGridButton(grid, "*", 3, 3);
+        Button divideButton = createGridButton(grid, "/", 3, 4);
         plusButton.setOnMouseClicked(e -> addChar('+'));
         minusButton.setOnMouseClicked(e -> addChar('-'));
         timesButton.setOnMouseClicked(e -> addChar('*'));
         divideButton.setOnMouseClicked(e -> addChar('/'));
 
-        Button resButton = createGridButton(grid, '=', 2, 3);
+        Button resButton = createGridButton(grid, "=", 2, 4);
         resButton.setOnMouseClicked(ev -> {
             try {
                 double res = inputManager.calculate();
@@ -115,6 +115,12 @@ public class Calculator extends Application {
             }
         });
 
+        Button negateButton = createGridButton(grid, "+/-", 0, 0);
+        negateButton.setOnMouseClicked(e -> {
+            inputManager.negate();
+            updateExpressionLabel();
+        });
+
         return grid;
     }
 
@@ -123,8 +129,8 @@ public class Calculator extends Application {
         updateExpressionLabel();
     }
 
-    private Button createGridButton(GridPane grid, char ch, int col, int row) {
-        Button but = new Button("" + ch);
+    private Button createGridButton(GridPane grid, String label, int col, int row) {
+        Button but = new Button(label);
         but.setMinSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         but.setFont(BUTTON_FONT);
         but.setFocusTraversable(false);

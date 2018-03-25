@@ -12,6 +12,7 @@ public class CalculatorInputManager {
     private class InputNumber {
         private String string = "";
         private boolean comma = false;
+        private boolean negative = false;
 
         // Cheesy getters
         public String getString() { return string; }
@@ -35,8 +36,21 @@ public class CalculatorInputManager {
             string += c;
         }
 
+        public double asDouble() {
+            double value = Double.valueOf(string);
+            return negative ? -value : value;
+        }
+
+        public String asString() {
+            return negative ? "(-" + string + ")" : string;
+        }
+
         public void removeChar() {
             // TODO: When removing comma, set containsComma = false
+        }
+
+        public void negate() {
+            negative = !negative;
         }
     }
 
@@ -99,8 +113,8 @@ public class CalculatorInputManager {
         if (canCalculate()) {
             // Collect parts
 
-            double first = Double.valueOf(firstNum.string);
-            double second = Double.valueOf(secondNum.string);
+            double first = firstNum.asDouble();
+            double second = secondNum.asDouble();
 
             double res = evaluateExpression(first, second, operator);
             lastResult = OptionalDouble.of(res);
@@ -124,11 +138,15 @@ public class CalculatorInputManager {
         }
     }
 
+    public void negate() {
+        getCurrentNumber().negate();
+    }
+
     public String getInputString() {
         if (operator == UNSET_OPERATOR) {
-            return firstNum.string;
+            return firstNum.asString();
         }
-        return firstNum.string + operator + secondNum.string;
+        return firstNum.asString() + operator + secondNum.asString();
     }
 
     private boolean isValidChar(char c) {
