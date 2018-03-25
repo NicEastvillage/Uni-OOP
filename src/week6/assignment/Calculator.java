@@ -121,6 +121,13 @@ public class Calculator extends Application {
             updateExpressionLabel();
         });
 
+        Button clearButton = createGridButton(grid, "C", 2, 0);
+        clearButton.setOnMouseClicked(e -> {
+            inputManager.clear();
+            lastCalculation = Optional.empty();
+            updateExpressionLabel();
+        });
+
         return grid;
     }
 
