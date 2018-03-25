@@ -107,7 +107,7 @@ public class Calculator extends Application {
         resButton.setOnMouseClicked(ev -> {
             try {
                 double res = inputManager.calculate();
-                lastCalculation = Optional.of(inputManager.getInputString() + " = " + res);
+                lastCalculation = Optional.of("" + res);
                 inputManager.clear();
                 updateExpressionLabel();
             } catch (Exception ex) {
@@ -118,6 +118,12 @@ public class Calculator extends Application {
         Button negateButton = createGridButton(grid, "+/-", 0, 0);
         negateButton.setOnMouseClicked(e -> {
             inputManager.negate();
+            updateExpressionLabel();
+        });
+
+        Button backspaceButton = createGridButton(grid, "<", 1, 0);
+        backspaceButton.setOnMouseClicked(e -> {
+            inputManager.removeChar();
             updateExpressionLabel();
         });
 

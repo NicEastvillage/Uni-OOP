@@ -46,7 +46,12 @@ public class CalculatorInputManager {
         }
 
         public void removeChar() {
-            // TODO: When removing comma, set containsComma = false
+            if (!isEmpty()) {
+                char removedChar = string.charAt(string.length() - 1);
+                string = string.substring(0, string.length() - 1);
+
+                if (removedChar == '.') comma = false;
+            }
         }
 
         public void negate() {
@@ -103,6 +108,20 @@ public class CalculatorInputManager {
         }
 
         operator = c;
+    }
+
+    public void removeChar() {
+        if (!secondNum.isEmpty()) {
+            secondNum.removeChar();
+        } else if (secondNum.negative) {
+            secondNum.negative = false;
+        } else if (operator != UNSET_OPERATOR){
+            operator = UNSET_OPERATOR;
+        } else if (!firstNum.isEmpty()) {
+            firstNum.removeChar();
+        } else if (firstNum.negative) {
+            firstNum.negative = false;
+        }
     }
 
     private InputNumber getCurrentNumber() {
