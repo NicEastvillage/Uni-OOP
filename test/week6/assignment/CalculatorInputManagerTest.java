@@ -128,15 +128,4 @@ class CalculatorInputManagerTest {
         InvalidExpressionException e = assertThrows(InvalidExpressionException.class, () -> cim.calculate());
         assertNotNull(e);
     }
-
-    @Test
-    public void invalidExp03() {
-        CalculatorInputManager cim = new CalculatorInputManager();
-        cim.addCharacter('5');
-        cim.addCharacter('-');
-        cim.addCharacter('2');
-        cim.addCharacter('+');
-        InvalidExpressionException e = assertThrows(InvalidExpressionException.class, () -> cim.calculate());
-        assertNotNull(e);
-    }
 }
