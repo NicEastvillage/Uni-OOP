@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
+/** The CalculatorInputManager is able to build up a simple calculation one character at a time like a calculator,
+ * and calculate the result when the expression is complete. */
 public class CalculatorInputManager {
 
     private static final char UNSET_OPERATOR = '#';
 
+    /** Helper class that builds Double from chars. */
     private class InputNumber {
         private String string = "";
         private boolean comma = false;
@@ -25,11 +28,13 @@ public class CalculatorInputManager {
             return false;
         }
 
+        /** Set InputNumber to contain a specific double value. */
         public void set(double value) {
             string = "" + value;
             comma = string.indexOf('.') >= 0;
         }
 
+        /** Append the InputNumber with a char. */
         public void addChar(char c) {
             if (!canAddChar(c)) throw new RuntimeException();
             if (isComma(c)) comma = true;
@@ -73,6 +78,7 @@ public class CalculatorInputManager {
         secondNum = new InputNumber();
     }
 
+    /** Append the calculation with a char. */
     public void addCharacter(char c) {
         if (!isValidChar(c)) throw new IllegalArgumentException("The character '" + c + "' is not valid in a calculator.");
 
@@ -91,6 +97,7 @@ public class CalculatorInputManager {
         }
     }
 
+    /** Set the operator of the calculation. */
     private void addOperator(char c) {
         // Use last result if first num is empty. If no last result, then ignore
         if (firstNum.isEmpty()) {
@@ -110,6 +117,7 @@ public class CalculatorInputManager {
         operator = c;
     }
 
+    /** Remove the last char of the calculation. */
     public void removeChar() {
         if (!secondNum.isEmpty()) {
             secondNum.removeChar();
@@ -128,6 +136,7 @@ public class CalculatorInputManager {
         return operator == UNSET_OPERATOR ? firstNum : secondNum;
     }
 
+    /** Calculate the result. */
     public double calculate() {
         if (canCalculate()) {
             // Collect parts
@@ -147,6 +156,7 @@ public class CalculatorInputManager {
         return !firstNum.isEmpty() && !secondNum.isEmpty() && operator != UNSET_OPERATOR;
     }
 
+    /** Calculate an expression with operands, where the operator is a char. */
     private double evaluateExpression(double a, double b, char operator) {
         switch (operator) {
             case '+': return a + b;
@@ -161,6 +171,7 @@ public class CalculatorInputManager {
         getCurrentNumber().negate();
     }
 
+    /** Combine InputNumbers and operator to a String. */
     public String getInputString() {
         if (operator == UNSET_OPERATOR) {
             return firstNum.asString();
