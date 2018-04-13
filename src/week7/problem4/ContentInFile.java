@@ -16,8 +16,13 @@ public class ContentInFile {
 
         Path path = Paths.get(args[0]);
 
-        if (!Files.exists(path) && !Files.isRegularFile(path) && !Files.isReadable(path)) {
-            System.out.println("Err: Could not find/read file at path.");
+        if (!Files.exists(path)) {
+            System.out.println("Err: File does not exist.");
+            return;
+        }
+
+        if (!Files.isRegularFile(path) && !Files.isReadable(path)) {
+            System.out.println("Err: File is not readable.");
             return;
         }
 

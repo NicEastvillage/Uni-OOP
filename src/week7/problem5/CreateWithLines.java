@@ -24,9 +24,13 @@ public class CreateWithLines {
         try (BufferedWriter bw = Files.newBufferedWriter(path, StandardOpenOption.CREATE_NEW)) {
             for (int i = 0; i < times; i++) {
                 bw.write(line);
+                bw.newLine();
             }
         } catch (IOException e) {
             System.out.println("Err: Unable to write file.");
+            return;
         }
+
+        System.out.println("File created and written!");
     }
 }
