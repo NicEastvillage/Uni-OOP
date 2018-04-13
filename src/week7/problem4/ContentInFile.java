@@ -6,11 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class LineInFile {
+public class ContentInFile {
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Err: First argument should be a file path, and second argument should be a line number.");
+            System.out.println("Err: First argument should be a file path.");
             return;
         }
 
