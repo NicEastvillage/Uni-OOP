@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class PrintFileContent {
+public class LineInFile {
 
     public static void main(String[] args) {
         if (args.length != 1) {
